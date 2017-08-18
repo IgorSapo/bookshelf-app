@@ -1,0 +1,26 @@
+.card {
+  padding: 0 3px 5px 0;
+  margin-right: 5px;
+  background-color: white;
+  cursor: move;
+  overflow: hidden;
+  height: 200px;
+  width: 50px;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.book-side {
+  display: block;
+  white-space: nowrap;
+  width: 20px;
+  height: 100%;
+  -webkit-transform: translate(1.1em, 0) rotate(90deg);
+  -moz-transform: translate(1.1em, 0) rotate(90deg);
+  -o-transform: translate(1.1em, 0) rotate(90deg);
+  transform: translate(0, 100%) rotate(-90deg);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+}

@@ -1,3 +1,12 @@
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, Tahoma, sans-serif;
+  font-size: 14px;
+  line-height: 29px;
+  height: 100vh;
+  background: transparent url("/Tomorrowland-Syd-Mead_990x533.jpg") repeat
+    scroll center top/cover;
+}
+
 .App {
   text-align: center;
 }
@@ -23,6 +32,10 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
