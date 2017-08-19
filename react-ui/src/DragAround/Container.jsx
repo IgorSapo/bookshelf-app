@@ -676,6 +676,7 @@ class Container extends Component {
   render() {
     const { connectDropTarget } = this.props;
     const { authors, boxes, cards, books } = this.state;
+    console.log(books);
     const booksArr = Object.values(books);
 
     return connectDropTarget(
