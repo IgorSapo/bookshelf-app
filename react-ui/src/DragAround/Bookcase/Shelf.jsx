@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
-import ItemTypes from '../Sortable/ItemTypes';
+import ItemTypes from '../ItemTypes';
 // import React, { Component } from 'react';
 // import update from 'react/lib/update';
 // import { DragDropContext } from 'react-dnd';
 // import HTML5Backend from 'react-dnd-html5-backend';
-import Card from '../Sortable/Card';
-import example from './example';
-import './SortableContainer.css';
+import Book from './Book';
+import './Shelf.css';
 
 // class Container extends Component {
 //   constructor(props) {
@@ -94,53 +93,9 @@ import './SortableContainer.css';
 
 const sortableTarget = {
   drop(props, monitor, component) {
-    // props.returnBook(monitor.getItem().id);
     console.log('Monitor getItem: !!!');
     console.log(monitor.getItem());
     props.returnBook(monitor.getItem().id);
-
-    // const dragIndex = monitor.getItem().index;
-    // const hoverIndex = props.index;
-
-    // // Don't replace items with themselves
-    // if (dragIndex === hoverIndex) {
-    //   return;
-    // }
-
-    // // Determine rectangle on screen
-    // const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-
-    // // Get vertical middle
-    // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-    // // Determine mouse position
-    // const clientOffset = monitor.getClientOffset();
-
-    // // Get pixels to the top
-    // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-    // // Only perform the move when the mouse has crossed half of the items height
-    // // When dragging downwards, only move when the cursor is below 50%
-    // // When dragging upwards, only move when the cursor is above 50%
-
-    // // Dragging downwards
-    // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-    //   return;
-    // }
-
-    // // Dragging upwards
-    // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-    //   return;
-    // }
-
-    // // Time to actually perform the action
-    // props.moveCard(dragIndex, hoverIndex);
-
-    // // Note: we're mutating the monitor item here!
-    // // Generally it's better to avoid mutations,
-    // // but it's good here for the sake of performance
-    // // to avoid expensive index searches.
-    // monitor.getItem().index = hoverIndex;
   }
 };
 
@@ -152,7 +107,7 @@ const sortableTarget = {
 //   isDragging: monitor.isDragging(),
 // }))
 /* export default */
-class Sortable extends Component {
+class Shelf extends Component {
   static propTypes = {
     // connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
@@ -184,16 +139,14 @@ class Sortable extends Component {
     return connectDropTarget(
       <div className="bookshelf">
         {this.props.cards.map((card, i) => {
-          if (!card.top && !card.left) {
+          if (card.id !== this.props.draggingBookId) {
             return (
-              <Card
+              <Book
                 openBook={this.props.openBook.bind(null, card.id)}
                 key={card.id}
                 index={i}
                 id={card.id}
                 text={card.text}
-                top={card.top}
-                left={card.left}
                 authorLastName={card.authorLastName}
                 authorFirstName={card.authorFirstName}
               />
@@ -205,15 +158,6 @@ class Sortable extends Component {
   }
 }
 
-// export default DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
-//   connectDragSource: connect.dragSource(),
-//   isDragging: monitor.isDragging()
-// }))(
-//   DropTarget(ItemTypes.CARD, cardTarget, connect => ({
-//     connectDropTarget: connect.dropTarget()
-//   }))(Card)
-// );
-
 export default DropTarget(ItemTypes.CARD, sortableTarget, connect => ({
   connectDropTarget: connect.dropTarget()
-}))(Sortable);
+}))(Shelf);

@@ -1,12 +1,12 @@
 import React from 'react';
-import './OpenedBook.css';
+import './Modal.css';
 
-class OpenedBook extends React.Component {
+class Modal extends React.Component {
   render() {
     return (
       <div className="opened-book">
         <button className="close-button" onClick={this.props.closeBook}>
-          X
+          &#10060;
         </button>
         <div className="book">
           <span className="page turnablePage" />
@@ -16,7 +16,7 @@ class OpenedBook extends React.Component {
           <span className="page turnablePage" />
           <span className="page turnablePage" />
           <span className="cover" />
-          <span className="page">
+          <span className="page staticPage">
             Добро пожаловать, достопочтенный читатель, в страну будущего.
           </span>
           <span className="cover turnableCover" />
@@ -26,4 +26,4 @@ class OpenedBook extends React.Component {
   }
 }
 
-export default OpenedBook;
+export default Modal;

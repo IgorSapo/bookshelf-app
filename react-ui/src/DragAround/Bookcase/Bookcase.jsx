@@ -1,23 +1,7 @@
 import React from 'react';
-import './BookCase.css';
-import Sortable from './SortableContainer';
-import { v4 } from 'uuid';
+import Shelf from './Shelf';
 
-const sortBy = criteria => {
-  return (a, b) => {
-    if (a[criteria].toUpperCase && b[criteria].toUpperCase) {
-      if (a[criteria].toUpperCase() > b[criteria].toUpperCase()) return 1;
-      if (a[criteria].toUpperCase() < b[criteria].toUpperCase()) return -1;
-      return 0;
-    } else {
-      if (a[criteria] > b[criteria]) return 1;
-      if (a[criteria] < b[criteria]) return -1;
-      return 0;
-    }
-  };
-};
-
-class BookCase extends React.Component {
+class Bookcase extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -33,33 +17,22 @@ class BookCase extends React.Component {
   }
 
   render() {
-    const sortedShelfArr = this.props.state.shelves.map(shelf =>
+    const shelfArr = this.props.state.shelves.map(shelf =>
       Object.values(this.props.state.books)
         .filter(book => book.shelfId === shelf)
         .map(book => ({
           id: book.id,
           text: book.text,
           authorLastName: this.props.state.authors[book.authorId].lastName,
-          authorFirstName: this.props.state.authors[book.authorId].firstName,
-          left: book.left,
-          top: book.top
+          authorFirstName: this.props.state.authors[book.authorId].firstName
         }))
     );
 
-    console.log('Handle sort');
-    // console.log(this.props.sortedShelfArr);
-    const shelfArr = sortedShelfArr;
     const sortBy = criteria => {
       return (a, b) => {
-        if (a[criteria].toUpperCase && b[criteria].toUpperCase) {
-          if (a[criteria].toUpperCase() > b[criteria].toUpperCase()) return 1;
-          if (a[criteria].toUpperCase() < b[criteria].toUpperCase()) return -1;
-          return 0;
-        } else {
-          if (a[criteria] > b[criteria]) return 1;
-          if (a[criteria] < b[criteria]) return -1;
-          return 0;
-        }
+        if (a[criteria].toUpperCase() > b[criteria].toUpperCase()) return 1;
+        if (a[criteria].toUpperCase() < b[criteria].toUpperCase()) return -1;
+        return 0;
       };
     };
     let newArr;
@@ -74,7 +47,7 @@ class BookCase extends React.Component {
         break;
       case 'default':
       default:
-        newArr = [...shelfArr].map(shelf => [...shelf]);
+        newArr = shelfArr;
         break;
     }
 
@@ -90,12 +63,17 @@ class BookCase extends React.Component {
           Book title
         </button>
 
-        {newArr.map(shelf =>
-          <Sortable
-            key={v4()}
+        {newArr.map((shelf, index) =>
+          <Shelf
+            key={index}
             cards={shelf}
             returnBook={this.props.returnBook}
             openBook={this.props.openBook}
+            draggingBookId={
+              this.props.state.draggingBook
+                ? this.props.state.draggingBook.id
+                : null
+            }
           />
         )}
       </div>
@@ -103,4 +81,4 @@ class BookCase extends React.Component {
   }
 }
 
-export default BookCase;
+export default Bookcase;

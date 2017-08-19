@@ -1,0 +1,6 @@
+.bookshelf {
+  width: 400px;
+  border-bottom: 5px solid brown;
+  display: flex;
+  margin-bottom: 5px;
+}

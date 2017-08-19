@@ -68,7 +68,7 @@
   margin: auto;
 }
 .cover {
-  background-color: #36354e;
+  background-color: #eee;
   transform: rotateY(0deg);
   width: 19.25rem;
   height: 22.5rem;
@@ -77,7 +77,7 @@
 .page {
   top: 0.25rem;
   left: 0rem;
-  background-color: #e9e6c4;
+  background-color: #eee9d5;
   transform: rotateY(0deg);
   width: 19rem;
   height: 22rem;
@@ -86,6 +86,10 @@
 .turnablePage {
   transform: rotateY(-180deg);
   z-index: 999;
+}
+
+.page.staticPage {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
 }
 
 .turnableCover {
@@ -147,7 +151,7 @@
 
 /* Slide animation */
 .beforeOpen .book {
-  transform: translateX(0);
+  transform: translateX(16.6%);
 }
 
 .beforeOpen.afterOpen .book {
@@ -176,7 +180,7 @@
 
 @keyframes slideClose {
   100% {
-    transform: translateX(0);
+    transform: translateX(16.6%);
     z-index: 999;
   }
 }
@@ -190,6 +194,28 @@
 
 .beforeOpen.afterOpen .turnablePage {
   animation: bookOpen 2s forwards;
+}
+
+.beforeOpen.afterOpen .turnablePage:nth-of-type(1) {
+  animation-delay: 0.00s;
+}
+.beforeOpen.afterOpen .turnablePage:nth-of-type(2) {
+  animation-delay: 0.05s;
+}
+.beforeOpen.afterOpen .turnablePage:nth-of-type(3) {
+  animation-delay: 0.10s;
+}
+.beforeOpen.afterOpen .turnablePage:nth-of-type(4) {
+  /*animation: bookOpen150deg 3s forwards;*/
+  animation-delay: 0.15s;
+}
+.beforeOpen.afterOpen .turnablePage:nth-of-type(5) {
+  /*animation: bookOpen30deg 3s forwards;*/
+  animation-delay: 0.20s;
+}
+.beforeOpen.afterOpen .turnablePage:nth-of-type(6) {
+  /*animation: bookOpen55deg 3s forwards;*/
+  animation-delay: 0.25s;
 }
 
 .beforeClose .turnablePage {
