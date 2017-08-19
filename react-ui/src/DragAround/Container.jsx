@@ -676,6 +676,7 @@ class Container extends Component {
   render() {
     const { connectDropTarget } = this.props;
     const { authors, boxes, cards, books } = this.state;
+    const booksArr = Object.values(books);
 
     return connectDropTarget(
       <div
@@ -689,7 +690,7 @@ class Container extends Component {
             this.container = el;
           }}>
           <div>
-            {Object.values(books).map(card => {
+            {booksArr.map(card => {
               const { left, top, text, id, authorId } = card;
               const authorFirstName = authors[authorId].firstName;
               const authorLastName = authors[authorId].lastName;
