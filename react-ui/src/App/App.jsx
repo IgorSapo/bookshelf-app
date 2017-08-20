@@ -8,7 +8,7 @@ import Bookcase from './Bookcase/Bookcase';
 import Preview from './Preview';
 import Modal from './Modal';
 import CustomDragLayer from './CustomDragLayer';
-import './Container.css';
+import './App.css';
 
 const target = {
   drop(props, monitor, component) {
