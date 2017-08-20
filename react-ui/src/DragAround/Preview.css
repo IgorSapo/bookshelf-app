@@ -1,27 +1,12 @@
-/*.container {
-  padding: 100px;
-  background-color: lightblue;
-  perspective: 1200px;
-}*/
-
-.scene {
-  width: 300px;
-  height: 300px;
-  margin: 75px auto 0;
-  perspective: 1200px;
-  box-sizing: border-box;
-}
-
-.cube {
+.preview {
   position: absolute;
   width: 200px;
   height: 200px;
   transform-style: preserve-3d;
-  /* animation: example 10s linear infinite; */
-  /*border: 2px solid green;*/
+  cursor: move;
 }
 
-.side {
+.preview-side {
   position: absolute;
   width: 200px;
   height: 200px;
@@ -29,8 +14,6 @@
   background-color: #eee;
   padding: 20px 0;
   text-align: center;
-  -webkit-backface-visibility: hidden;
-  /*backface-visibility: hidden;*/
   display: flex;
   overflow: hidden;
   padding: 0 3px 5px 0;
@@ -55,32 +38,21 @@
 .left {
   transform: translateX(-25px) rotateY(-90deg);
   background-color: light-green;
-  /* background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Elon_Musk%2C_Tesla_Factory%2C_Fremont_%28CA%2C_USA%29_%288765031426%29.jpg/307px-Elon_Musk%2C_Tesla_Factory%2C_Fremont_%28CA%2C_USA%29_%288765031426%29.jpg'); */
   background-size: cover;
   width: 50px;
   backface-visibility: visible;
 }
 
-/*.right {
-  transform: translateX(150px) rotateY(90deg);
-}*/
-
 .front {
   transform: translateZ(25px);
   background-color: light-green;
-  /* background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Elon_Musk%2C_Tesla_Factory%2C_Fremont_%28CA%2C_USA%29_%288765031426%29.jpg/307px-Elon_Musk%2C_Tesla_Factory%2C_Fremont_%28CA%2C_USA%29_%288765031426%29.jpg');*/
   background-size: cover;
   display: flex;
   flex-flow: column;
   backface-visibility: visible;
 }
 
-/*.top,
-.bottom {
-  background-color: rgba(105, 136, 190, 0.5);
-}*/
-
-.book-side-text {
+.left-text {
   display: block;
   white-space: nowrap;
   width: 20px;

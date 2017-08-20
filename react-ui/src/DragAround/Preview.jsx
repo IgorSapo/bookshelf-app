@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { findDOMNode } from 'react-dom';
-import { DragSource, DropTarget } from 'react-dnd';
+import { DragSource } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 import './Preview.css';
 
-const cardSource = {
+const bookSource = {
   beginDrag(props) {
     return {
       id: props.id,
-      index: props.index,
       left: props.left,
       top: props.top,
       text: props.text,
@@ -23,13 +21,12 @@ class Preview extends React.Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDragPreview: PropTypes.func.isRequired,
-    index: PropTypes.number, //isRequired
     isDragging: PropTypes.bool.isRequired,
-    id: PropTypes.any.isRequired,
+    id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
-    moveCard: PropTypes.func, //isRequired
     left: PropTypes.number,
-    top: PropTypes.number
+    top: PropTypes.number,
+    openBook: PropTypes.func
   };
 
   componentDidMount() {
@@ -46,44 +43,43 @@ class Preview extends React.Component {
       openBook,
       connectDragSource,
       isDragging,
-      cubeRef
+      previewRef,
+      authorFirstName,
+      authorLastName
     } = this.props;
-    const opacity = isDragging ? 0 : 1;
+    if (isDragging) return null;
     return connectDragSource(
       <div
-        className="cube"
-        ref={el => (this.cube = el)}
-        style={{ top, left, opacity }}
-        ref={cubeRef}>
-        <div className="side front">
+        className="preview"
+        style={{ top, left }}
+        ref={previewRef}
+        onClick={openBook}>
+        <div className="preview-side front">
           <p className="front-fullname">
-            {this.props.authorLastName + ' ' + this.props.authorFirstName}
+            {authorLastName + ' ' + authorFirstName}
           </p>
           <br />
           <p className="front-title">
-            {this.props.text}
+            {text}
           </p>
         </div>
-        <div className="side left">
-          <span className="book-side-text">
+        <div className="preview-side left">
+          <span className="left-text">
             {text}
           </span>
-          <span className="book-side-text">
-            {this.props.authorLastName +
-              ' ' +
-              this.props.authorFirstName[0] +
-              '.'}
+          <span className="left-text">
+            {authorLastName + ' ' + authorFirstName[0] + '.'}
           </span>
         </div>
-        <div className="side back" />
-        <div className="side bottom" />
-        <div className="side top" />
+        <div className="preview-side back" />
+        <div className="preview-side bottom" />
+        <div className="preview-side top" />
       </div>
     );
   }
 }
 
-export default DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
+export default DragSource(ItemTypes.BOOK, bookSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()

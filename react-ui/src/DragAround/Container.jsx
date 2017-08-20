@@ -10,35 +10,15 @@ import Modal from './Modal';
 import CustomDragLayer from './CustomDragLayer';
 import './Container.css';
 
-const boxTarget = {
+const target = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
-    const delta = monitor.getDifferenceFromInitialOffset();
-    console.log('getItem left and top');
-    console.log(item.left);
-    console.log(item.top);
-    console.log('delta x and y');
-    // console.log(delta.x);
-    // console.log(delta.y);
-    console.log('get drop result');
-    console.log(monitor.getDropResult());
-    console.log('git client offset');
-    console.log(monitor.getClientOffset());
-    console.log('getSourceClientOffset');
-    console.log(monitor.getSourceClientOffset());
-    console.log('initial client offset');
-    console.log(monitor.getInitialClientOffset());
-    // const left = Math.round(item.left + delta.x);
-    // const top = Math.round(item.top + delta.y);
+    // const delta = monitor.getDifferenceFromInitialOffset();
     if (
       !monitor.getSourceClientOffset() ||
       monitor.getSourceClientOffset().x < 0
     )
       return;
-    //component.moveBook(item.id, left, top);
-    // const containerCoords = component.container.getBoundingClientRect();
-    // const containerTop = containerCoords.top;
-    // const containerLeft = containerCoords.left;
     const containerTop = 0;
     const containerLeft = 0;
 
@@ -59,28 +39,21 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    //this.moveCard = this.moveCard.bind(this);
     this.returnBook = this.returnBook.bind(this);
     this.openBook = this.openBook.bind(this);
     this.closeBook = this.closeBook.bind(this);
-    // this.getSortedShelfArr = this.getSortedShelfArr.bind(this);
-    this.sortedShelfArr = null;
+    this.moveBook = this.moveBook.bind(this);
 
     // // Rotation functions and variables
     this.handleDrag = this.handleDrag.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-
     this.isDragging = false;
     this.prevClientX = null;
     this.rotation = 0;
 
-    // this.onSwipingLeftListener = this.onSwipingLeftListener.bind(this);
-    // this.onSwipingRightListener = this.onSwipingRightListener.bind(this);
-
     this.state = {
-      sortedShelfArr: null,
-      openedBookId: null,
+      openedBook: null,
       draggingBook: null,
       books: {
         0: {
@@ -195,19 +168,12 @@ class Container extends Component {
       shelves: [0, 1, 2]
     };
   }
-  onSwipingLeftListener(e) {
-    console.log(e);
-  }
-  onSwipingRightListener(e) {
-    console.log(e);
-  }
+
   // Rotation logic
   handleDrag(e) {
     if (this.state.draggingBook && !this.isDragging) {
-      if (e.target.className === 'cube' || e.target.className === 'sortable')
+      if (e.target.className === 'preview' || e.target.className === 'sortable')
         return;
-      // console.log('Current target');
-      // console.log(e.currenTarget);
       this.isDragging = true;
       this.prevClientX = e.clientX;
     }
@@ -227,9 +193,9 @@ class Container extends Component {
       }
       // console.log(this.rotation);
       this.prevClientX = newClientX;
-      if (this.cube) {
+      if (this.preview) {
         window.requestAnimationFrame(
-          () => (this.cube.style.transform = `rotateY(${this.rotation}deg)`)
+          () => (this.preview.style.transform = `rotateY(${this.rotation}deg)`)
         );
       }
     }
@@ -243,7 +209,6 @@ class Container extends Component {
   }
 
   moveBook(id, left, top) {
-    // console.log(id, left, top);
     if (!left || !top) {
       return;
     }
@@ -267,22 +232,27 @@ class Container extends Component {
   }
 
   openBook(id) {
-    console.log(`Book opened ${id}`);
+    const { books, authors } = this.state;
+    const authorId = books[id].authorId;
     this.setState({
-      openedBookId: id
+      openedBook: {
+        id,
+        text: books[id].text,
+        authorFirstName: authors[authorId].firstName,
+        authorLastName: authors[authorId].lastName
+      }
     });
   }
 
   closeBook(id) {
-    console.log(`Book opened ${id}`);
     this.setState({
-      openedBookId: null
+      openedBook: null
     });
   }
 
   render() {
     const { connectDropTarget } = this.props;
-    const { authors, cards, books, draggingBook, openedBookId } = this.state;
+    const { authors, books, draggingBook, openedBook } = this.state;
     const draggingBookData = draggingBook
       ? {
           id: draggingBook.id,
@@ -304,10 +274,11 @@ class Container extends Component {
           onMouseMove={this.handleMouseMove}
           onMouseUp={this.handleMouseUp}>
           {draggingBook &&
+            !openedBook &&
             <Preview
               {...draggingBookData}
               openBook={this.openBook.bind(this, this.state.draggingBook.id)}
-              cubeRef={el => (this.cube = el)}
+              previewRef={el => (this.preview = el)}
             />}
           <Bookcase
             state={this.state}
@@ -323,8 +294,8 @@ class Container extends Component {
             }}
             transitionEnterTimeout={0}
             transitionLeaveTimeout={0}>
-            {openedBookId &&
-              <Modal book={books[openedBookId]} closeBook={this.closeBook} />}
+            {openedBook &&
+              <Modal book={openedBook} closeBook={this.closeBook} />}
           </ReactCSSTransitionGroup>
         </div>
       </div>
@@ -333,27 +304,7 @@ class Container extends Component {
 }
 
 export default DragDropContext(HTML5Backend)(
-  DropTarget(ItemTypes.CARD, boxTarget, connect => ({
+  DropTarget(ItemTypes.BOOK, target, connect => ({
     connectDropTarget: connect.dropTarget()
   }))(Container)
 );
-
-// {Object.values(books).map(card => {
-//   const { left, top, text, id, authorId } = card;
-//   const authorFirstName = authors[authorId].firstName;
-//   const authorLastName = authors[authorId].lastName;
-//   if (id === this.state.draggingBook.id)
-//     return (
-//       <Cube
-//         key={id}
-//         id={id}
-//         left={left}
-//         top={top}
-//         text={text}
-//         authorFirstName={authorFirstName}
-//         authorLastName={authorLastName}
-//         openBook={this.openBook.bind(this, id)}
-//         cubeRef={el => (this.cube = el)}
-//       />
-//     );
-// })}

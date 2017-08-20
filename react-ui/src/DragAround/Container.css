@@ -4,23 +4,4 @@
   position: relative;
   box-sizing: border-box;
   perspective: 1200px;
-  border: 1px solid black;
 }
-
-/*.beforeOpen {
-  opacity: 0.01;
-}
-
-.beforeOpen.afterOpen {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.beforeClose {
-  opacity: 1;
-}
-
-.beforeClose.afterClose {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}*/

@@ -49,7 +49,7 @@ class CustomDragLayer extends Component {
 
   renderItem(type, item) {
     switch (type) {
-      case ItemTypes.CARD:
+      case ItemTypes.BOOK:
         return !item.left
           ? <Book
               index={item.index}

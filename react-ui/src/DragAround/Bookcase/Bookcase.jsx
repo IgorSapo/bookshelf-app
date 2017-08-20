@@ -1,7 +1,13 @@
 import React from 'react';
 import Shelf from './Shelf';
+import PropTypes from 'prop-types';
 
 class Bookcase extends React.Component {
+  static propTypes = {
+    returnBook: PropTypes.func.isRequired,
+    openBook: PropTypes.func.isRequired
+  };
+
   constructor() {
     super();
     this.state = {
@@ -53,20 +59,20 @@ class Bookcase extends React.Component {
 
     return (
       <div>
-        <button name="default" onClick={this.handleSort}>
-          Not sorted
-        </button>
+        Sort by:
         <button name="authorLastName" onClick={this.handleSort}>
-          Author last name
+          Author&#39;s last name
         </button>
         <button name="text" onClick={this.handleSort}>
           Book title
         </button>
-
+        <button name="default" onClick={this.handleSort}>
+          Not sorted
+        </button>
         {newArr.map((shelf, index) =>
           <Shelf
             key={index}
-            cards={shelf}
+            books={shelf}
             returnBook={this.props.returnBook}
             openBook={this.props.openBook}
             draggingBookId={

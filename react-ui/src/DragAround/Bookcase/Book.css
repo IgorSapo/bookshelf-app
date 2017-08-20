@@ -1,16 +1,16 @@
-.card {
+.spine {
   padding: 0 3px 5px 0;
   margin-right: 5px;
   background-color: #eee;
-  cursor: move;
   overflow: hidden;
   height: 200px;
   width: 50px;
   box-sizing: border-box;
   display: flex;
+  cursor: move;
 }
 
-.book-side {
+.spine-text {
   display: block;
   white-space: nowrap;
   width: 20px;
